@@ -22,6 +22,13 @@ public class PlaceBlock : MonoBehaviour {
 	}
 	
 	void placeBlock() {
-		Instantiate(this.goldBrick, this.gameObject.transform.position, this.gameObject.transform.rotation);
+		Vector3 pos =this.gameObject.transform.position;
+		Vector3 dir =this.gameObject.transform.forward;
+		Quaternion rot =this.gameObject.transform.rotation;
+		float dist =10.0f;
+		Vector3 spawnPos =pos +dir *dist;
+		
+		GameObject go =Instantiate(this.goldBrick, spawnPos, rot) as GameObject;
+		go.transform.parent =this.transform;
 	}
 }
