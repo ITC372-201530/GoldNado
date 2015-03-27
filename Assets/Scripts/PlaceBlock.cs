@@ -41,6 +41,9 @@ public class PlaceBlock : MonoBehaviour {
 		Vector3 spawnPos =pos +dir *dist;
 		
 		this.tmpBlock =Instantiate(this.goldBrick, spawnPos, rot) as GameObject;
+
+		this.tmpBlock.renderer.material.color -=new Color(0.1f ,0, 0, 0);
+		
 		this.tmpBlock.transform.parent =this.transform;
 	}
 	
