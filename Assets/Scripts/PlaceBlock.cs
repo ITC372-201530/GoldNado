@@ -3,6 +3,9 @@ using System.Collections;
 
 public class PlaceBlock : MonoBehaviour {
 	public GameObject goldBrick;
+	public GameObject Building;
+	
+	private GameObject tmpBlock;
 	
 	// Use this for initialization
 	void Start () {
@@ -13,22 +16,38 @@ public class PlaceBlock : MonoBehaviour {
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.B)) {
 			print ("Build");
-			this.placeBlock();
+			this.showBlock();
 		}
 		
 		if(Input.GetKeyUp(KeyCode.B)) {
 			print ("End Build");
+			this.placeBlock();
+		}
+		
+		if(Input.GetAxis("Mouse ScrollWheel") !=0) {
+			print ("Move");
+			this.tmpBlock.transform.Translate(Vector3.forward *Input.GetAxis("Mouse ScrollWheel"));
 		}
 	}
 	
-	void placeBlock() {
+	void showBlock() {
 		Vector3 pos =this.gameObject.transform.position;
 		Vector3 dir =this.gameObject.transform.forward;
 		Quaternion rot =this.gameObject.transform.rotation;
-		float dist =10.0f;
+		float dist =5.0f;
+		
+		pos.y -=0.75f;
+		
 		Vector3 spawnPos =pos +dir *dist;
 		
-		GameObject go =Instantiate(this.goldBrick, spawnPos, rot) as GameObject;
-		go.transform.parent =this.transform;
+		this.tmpBlock =Instantiate(this.goldBrick, spawnPos, rot) as GameObject;
+		this.tmpBlock.transform.parent =this.transform;
 	}
+	
+	void placeBlock() {
+		this.tmpBlock.transform.parent =this.Building.transform;
+		this.tmpBlock.collider.isTrigger =false; //Because we have place the block onto the game scene we no longer want it to just be a trigger
+		this.tmpBlock.collider.attachedRigidbody.useGravity =true; //Allow gravity to affect the block
+	}
+	
 }
