@@ -37,7 +37,7 @@ public class Gold : MonoBehaviour {
 	void InitBlock() {
 		Vector3 pos =gameObject.transform.position;
 		Quaternion rot =gameObject.transform.rotation;
-		Destroy(this.gameObject);
+		//Destroy(this.gameObject);
 		Instantiate(dBrick, pos, rot);
 	}
 }
