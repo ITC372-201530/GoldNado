@@ -74,7 +74,10 @@ public class PlaceBlock : MonoBehaviour {
 		spt.detectionColor =new Color(0.5f, 0, 0, 0.5f);
 		this.tmpBlock.transform.parent =this.transform;
 		
+		//GameObject child =this.tmpBlock.transform.Find("goldBrick").gameObject;
+		
 		this.tmpBlock.transform.rotation =Quaternion.Euler(this.lockPos, this.tmpBlock.transform.rotation.eulerAngles.y, this.lockPos); //In order to stop the block from rotating around to the camera rotation we need to reset the rotation back after we init the block
+		child.transform.rotation =Quaternion.Euler(this.lockPos, this.tmpBlock.transform.rotation.eulerAngles.y, this.lockPos); //In order to stop the block from rotating around to the camera rotation we need to reset the rotation back after we init the block
 		Color col =this.tmpBlock.renderer.material.color;
 		col.a =0.5f;
 		this.tmpBlock.renderer.material.color =col;
