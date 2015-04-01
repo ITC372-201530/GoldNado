@@ -92,7 +92,7 @@ public class PlaceBlock : MonoBehaviour {
 	}
 	
 	void placeBlock() {
-		Destroy(this.tmpShadow);
+		//Destroy(this.tmpShadow);
 		//Before we can place a block we need to make sure it isnt inside another object
 		PlaceBlockDetection spt =(PlaceBlockDetection)this.tmpBlock.GetComponent("PlaceBlockDetection");
 		if(this.tmpBlock.transform.position.y <0 || spt.IsInideObject() ==true) { //Destroy the block

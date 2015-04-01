@@ -7,15 +7,27 @@ public class PlaceBlockDetection : MonoBehaviour {
 	
 	public Color detectionColor;
 	
+	public bool hasLight;
+	
 	// Use this for initialization
 	void Start () {
 		this.col =this.renderer.material.color;
 		this.triggerCount =0;
+		this.hasLight =true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 			
+	}
+	
+	void OnCollisionEnter(Collision col) {
+		if(this.hasLight) {
+			foreach (Transform childTransform in this.transform) {
+				Destroy(childTransform.gameObject);
+			}
+			this.hasLight =false;
+		}
 	}
 	
 	void OnTriggerEnter(Collider other) {
