@@ -31,13 +31,11 @@ public class PlaceBlockDetection : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider other) {
-		print ("on object");
 		this.renderer.material.color =this.detectionColor;
 		this.triggerCount++;
 	}
 	
 	void OnTriggerExit(Collider other) {
-		print ("exit");
 		this.triggerCount--;
 		if(this.triggerCount ==0)
 			this.renderer.material.color =this.col;
