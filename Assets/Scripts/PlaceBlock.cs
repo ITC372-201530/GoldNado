@@ -7,13 +7,18 @@ public class PlaceBlock : MonoBehaviour {
 	public GameObject camera;
 	public GameObject shadow;
 	
+	public float initBlockDist =5.0f;
+	
 	private GameObject tmpBlock;
 	private GameObject tmpShadow;
 	
-	private float lockPos = 0;
+	private float lockPos =0;
+	private float blockDist;
+	
 	
 	// Use this for initialization
 	void Start () {
+		this.blockDist =this.initBlockDist;
 	}
 	
 	// Update is called once per frame
@@ -44,13 +49,16 @@ public class PlaceBlock : MonoBehaviour {
 		
 		if(Input.GetAxis("Mouse ScrollWheel") !=0) {
 			if(this.tmpBlock !=null) {
-				this.tmpBlock.transform.Translate(Vector3.forward *Input.GetAxis("Mouse ScrollWheel"));
+				Vector3 pos =this.camera.transform.position;
+				Vector3 dir =this.camera.transform.forward;
+				this.blockDist -=-Input.GetAxis("Mouse ScrollWheel");
+				
+				Vector3 spawnPos =pos +dir *this.blockDist;
+				this.tmpBlock.transform.position =spawnPos;
 			}
 		}
 		
 		if(Input.GetAxis("Mouse Y") !=0) {
-			//rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-			//rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
 			if(this.tmpBlock !=null) {
 				Vector3 upP =this.tmpBlock.transform.position;
 				upP.y +=Input.GetAxis("Mouse Y");
@@ -61,17 +69,12 @@ public class PlaceBlock : MonoBehaviour {
 	}
 	
 	void showBlock() {
-		Vector3 sPos =new Vector3(0,0,0);
-		Quaternion sRot =Quaternion.identity;
-		//sRot.x =90;
-		
 		Vector3 pos =this.camera.transform.position;
 		Vector3 dir =this.camera.transform.forward;
 		Quaternion rot =this.camera.transform.rotation;
 		rot.x =0;
-		float dist =5.0f;
 		
-		Vector3 spawnPos =pos +dir *dist;
+		Vector3 spawnPos =pos +dir *this.blockDist;
 		
 		this.tmpBlock =Instantiate(this.goldBrick, spawnPos, rot) as GameObject;
 		this.tmpShadow =Instantiate(this.shadow, spawnPos, this.shadow.transform.rotation) as GameObject;
@@ -82,17 +85,13 @@ public class PlaceBlock : MonoBehaviour {
 		spt.detectionColor =new Color(0.5f, 0, 0, 0.5f);
 		this.tmpBlock.transform.parent =this.transform;
 		
-		//GameObject child =this.tmpBlock.transform.Find("goldBrick").gameObject;
-		
 		this.tmpBlock.transform.rotation =Quaternion.Euler(this.lockPos, this.tmpBlock.transform.rotation.eulerAngles.y, this.lockPos); //In order to stop the block from rotating around to the camera rotation we need to reset the rotation back after we init the block
-		//child.transform.rotation =Quaternion.Euler(this.lockPos, this.tmpBlock.transform.rotation.eulerAngles.y, this.lockPos); //In order to stop the block from rotating around to the camera rotation we need to reset the rotation back after we init the block
 		Color col =this.tmpBlock.renderer.material.color;
 		col.a =0.5f;
 		this.tmpBlock.renderer.material.color =col;
 	}
 	
 	void placeBlock() {
-		//Destroy(this.tmpShadow);
 		//Before we can place a block we need to make sure it isnt inside another object
 		PlaceBlockDetection spt =(PlaceBlockDetection)this.tmpBlock.GetComponent("PlaceBlockDetection");
 		if(this.tmpBlock.transform.position.y <0 || spt.IsInideObject() ==true) { //Destroy the block
@@ -109,13 +108,14 @@ public class PlaceBlock : MonoBehaviour {
 			Color col =this.tmpBlock.renderer.material.color;
 			col.a =1;
 			this.tmpBlock.renderer.material.color =col;
-			//Destroy(this.tmpBlock.GetComponent("PlaceBlockDetection"));
 			
 			spt.detectionColor =new Color(0.5f, 0.5f, 0);
 			spt.col =col;
 			
 			this.tmpBlock =null;
 		}
+		
+		this.blockDist =this.initBlockDist;
 	}
 	
 }
