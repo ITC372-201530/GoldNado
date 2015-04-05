@@ -15,20 +15,29 @@ public class PlaceBlock : MonoBehaviour {
 	private float lockPos =0;
 	private float blockDist;
 	
+	private Player player;
+	
 	
 	// Use this for initialization
 	void Start () {
+		GameObject go =GameObject.FindGameObjectWithTag("gameControls") as GameObject;
+		
 		this.blockDist =this.initBlockDist;
+		this.player =(Player)go.GetComponent("Player");
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.B)) {
-			this.showBlock();
+			if(this.player.getBlockCount() >0) {
+				this.showBlock();
+			}
 		}
 		
 		if(Input.GetKeyUp(KeyCode.B)) {
-			this.placeBlock();
+			if(this.player.getBlockCount() >0) {
+				this.placeBlock();
+			}
 		}
 		
 		if(Input.GetKey(KeyCode.C)) {
@@ -113,6 +122,7 @@ public class PlaceBlock : MonoBehaviour {
 			spt.col =col;
 			
 			this.tmpBlock =null;
+			this.player.removeBlock();
 		}
 		
 		this.blockDist =this.initBlockDist;

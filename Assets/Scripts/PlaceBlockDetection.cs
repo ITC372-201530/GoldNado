@@ -6,7 +6,6 @@ public class PlaceBlockDetection : MonoBehaviour {
 	private int triggerCount; //We need to keep track of how many items we have hit, this is so we dont lose the red when we move out of one gameObject but are still inside another
 	
 	public Color detectionColor;
-	
 	public bool hasLight;
 	
 	// Use this for initialization
