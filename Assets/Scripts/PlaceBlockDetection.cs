@@ -6,7 +6,6 @@ public class PlaceBlockDetection : MonoBehaviour {
 	private int triggerCount; //We need to keep track of how many items we have hit, this is so we dont lose the red when we move out of one gameObject but are still inside another
 	
 	public Color detectionColor;
-	
 	public bool hasLight;
 	
 	// Use this for initialization
@@ -31,13 +30,11 @@ public class PlaceBlockDetection : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider other) {
-		print ("on object");
 		this.renderer.material.color =this.detectionColor;
 		this.triggerCount++;
 	}
 	
 	void OnTriggerExit(Collider other) {
-		print ("exit");
 		this.triggerCount--;
 		if(this.triggerCount ==0)
 			this.renderer.material.color =this.col;
